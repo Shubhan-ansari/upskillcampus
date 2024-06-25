@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/HospitalCare
+
+permissions:
+  - object: /home/ubuntu/HospitalCare
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  BeforeInstall:
+    - location: scripts/server_clear.sh
+      timeout: 300
+      runas: ubuntu
+  AfterInstall:
+    - location: scripts/fix_privileges.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 300
+      runas: ubuntu

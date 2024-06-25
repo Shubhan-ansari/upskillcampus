@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashpiyal Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+    <!-- container start -->
+<div class="container">
+    <!-- sidebar start  -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="fas fa-clinic-medical"></i>
+                    <div class="title">Brand Name</div>
+                </a>
+            </li>
+            <li>
+                <a href="/doctor_home">
+                    <i class="fas fa-th-large"></i>
+                    <div class="title">Dashboard</div>
+                </a>
+            </li>
+            <li>
+                <a href="/appointments">
+                    <i class="fas fa-stethoscope"></i>
+                    <div class="title">Appoinments</div>
+                </a>
+            </li>
+            <li>
+                <a href="/patients_view">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <div class="title">Patients</div>
+                </a>
+            </li>
+            <li>
+                <a href="/departments_view">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <div class="title">Department</div>
+                </a>
+            </li>
+            <li>
+                <a href="/reports">
+                    <i class="fa-solid fa-file"></i>
+                    <div class="title">Reports</div>
+                </a>
+            </li>
+            <li>
+                <a href="/logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <div class="title">Logout</div>
+                </a>
+            </li>
+            <li>
+                <a href="/dhelp">
+                    <i class="fas fa-question"></i>
+                    <div class="title">Help</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- sidebar end  -->
+    <!-- main start -->
+
+<div class="main">
+    <!-- top-bar start  -->
+    <div class="top-bar">
+        <div class="search">
+            <input type="text" name="search" placeholder="Search here">
+            <label for="search"><i class="fa fa-search"></i></label>
+        </div>
+        <i class="fas fa-bell"></i>
+        <div class="user">
+            <img src="./asset/img/doctor-icon.png" alt="">
+        </div>
+    </div>
+    <!-- top-bar end  -->
+    <!-- card start  -->
+    <div class="cards">
+        <div class="card">
+            <div class="card-content">
+                <div class="number">67</div>
+                <div class="card-name">Appointments</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-briefcase-medical"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">105</div>
+                <div class="card-name">New Patients</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-wheelchair"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">8</div>
+                <div class="card-name">Operations</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-bed"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">$4500</div>
+                <div class="card-name">Earnings</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+        </div>
+    </div>
+    <!-- cards end  -->
+    <!-- table start  -->
+
+<div class="welcome-message">Welcome to Doctors Dashboard!</div>
+<div class="welcome-message">Patient Details</div>
+<style>
+    .table-container {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #e9e9e9;
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Report ID</th>
+                <th>Patient ID</th>
+                <th>Patient Name</th>
+                <th>Disease</th>
+                <th>Cure</th>
+                <th>Date Admitted</th>
+                <th>Date Discharged</th>
+                <th>Symptoms</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in report_data %}
+            <tr>
+                <td>{{ report.report_id }}</td>
+                <td>{{ report.patient_id }}</td>
+                <td>{{ report.patient_name }}</td>
+                <td>{{ report.disease }}</td>
+                <td>{{ report.cure }}</td>
+                <td>{{ report.date_admitted }}</td>
+                <td>{{ report.date_discharged }}</td>
+                <td>{{ report.symptoms }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+    <!-- table end -->
+</div>
+    <!-- main end-->
+</div>
+    <!-- container end -->
+</body>
+</html>

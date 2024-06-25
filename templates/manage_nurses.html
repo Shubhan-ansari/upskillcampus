@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashpiyal Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .delete-icon {
+            color: red;
+            cursor: pointer;
+        }
+        .delete-icon:hover {
+            color: darkred;
+        }
+    </style>
+    <script>
+        function confirmDelete(nurseId) {
+            if (confirm('Are you sure you want to delete this nurse?')) {
+                fetch(`/delete_nurse/${nurseId}`, {
+                    method: 'POST'
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('An error occurred while deleting the nurse.');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- container start -->
+<div class="container">
+    <!-- sidebar start  -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="fas fa-clinic-medical"></i>
+                    <div class="title">Brand Name</div>
+                </a>
+            </li>
+            <li>
+                <a href="/admin">
+                    <i class="fas fa-th-large"></i>
+                    <div class="title">Dashboard</div>
+                </a>
+            </li>
+            <li>
+                <a href="/add_doctor">
+                    <i class="fas fa-stethoscope"></i>
+                    <div class="title">Add Doctor</div>
+                </a>
+            </li>
+            <li>
+                <a href="/add_nurse">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <div class="title">Add Nurse</div>
+                </a>
+            </li>
+            <li>
+                <a href="/add_department">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <div class="title">Add Department</div>
+                </a>
+            </li>
+            <li>
+                <a href="/manage_doctors">
+                    <i class="fa-solid fa-file"></i>
+                    <div class="title">Manage Doctors</div>
+                </a>
+            </li>
+            <li>
+                <a href="/manage_nurses">
+                    <i class="fa-solid fa-file"></i>
+                    <div class="title">Manage Nurse</div>
+                </a>
+            </li>
+            <li>
+                <a href="/logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <div class="title">Logout</div>
+                </a>
+            </li>
+            <li>
+                <a href="/help">
+                    <i class="fas fa-question"></i>
+                    <div class="title">Help</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- sidebar end  -->
+    <!-- main start -->
+
+<div class="main">
+    <!-- top-bar start  -->
+    <div class="top-bar">
+        <div class="search">
+            <input type="text" name="search" placeholder="Search here">
+            <label for="search"><i class="fa fa-search"></i></label>
+        </div>
+        <i class="fas fa-bell"></i>
+        <div class="user">
+            <img src="./asset/img/doctor-icon.png" alt="">
+        </div>
+    </div>
+    <!-- top-bar end  -->
+    <!-- card start  -->
+    <div class="cards">
+        <div class="card">
+            <div class="card-content">
+                <div class="number">67</div>
+                <div class="card-name">Appointments</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-briefcase-medical"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">105</div>
+                <div class="card-name">New Patients</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-wheelchair"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">8</div>
+                <div class="card-name">Operations</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-bed"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">$4500</div>
+                <div class="card-name">Earnings</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+        </div>
+    </div>
+    <!-- cards end  -->
+    <!-- table start  -->
+
+<div class="welcome-message">Manage Nurse</div>
+    <!-- table end -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Department</th>
+                    <th>Date of Joining</th>
+                    <th>Salary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nurse in nurses %}
+                <tr>
+                    <td>{{ nurse[1] }}</td>
+                    <td>{{ nurse[2] }}</td>
+                    <td>{{ nurse[3] }}</td>
+                    <td>{{ nurse[4] }}</td>
+                    <td>{{ nurse[7] }}</td>
+                    <td>{{ nurse[5] }}</td>
+                    <td>{{ nurse[6] }}</td>
+                    <td>
+                        <i class="fas fa-trash delete-icon" onclick="confirmDelete('{{ nurse[0] }}')"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+</div>
+    <!-- main end-->
+</div>
+    <!-- container end -->
+</body>
+</html>

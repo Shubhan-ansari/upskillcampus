@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashpiyal Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="number"],
+        .form-container textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+        
+        .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- container start -->
+<div class="container">
+    <!-- sidebar start  -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="fas fa-clinic-medical"></i>
+                    <div class="title">Brand Name</div>
+                </a>
+            </li>
+            <li>
+                <a href="/doctor_home">
+                    <i class="fas fa-th-large"></i>
+                    <div class="title">Dashboard</div>
+                </a>
+            </li>
+            <li>
+                <a href="/appointments">
+                    <i class="fas fa-stethoscope"></i>
+                    <div class="title">Appoinments</div>
+                </a>
+            </li>
+            <li>
+                <a href="/patients_view">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <div class="title">Patients</div>
+                </a>
+            </li>
+            <li>
+                <a href="/departments_view">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <div class="title">Department</div>
+                </a>
+            </li>
+            <li>
+                <a href="/reports">
+                    <i class="fa-solid fa-file"></i>
+                    <div class="title">Reports</div>
+                </a>
+            </li>
+            <li>
+                <a href="/logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <div class="title">Logout</div>
+                </a>
+            </li>
+            <li>
+                <a href="/dhelp">
+                    <i class="fas fa-question"></i>
+                    <div class="title">Help</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- sidebar end  -->
+    <!-- main start -->
+
+<div class="main" style="height: 100vh;">
+    <!-- top-bar start  -->
+    <div class="top-bar">
+        <div class="search">
+            <input type="text" name="search" placeholder="Search here">
+            <label for="search"><i class="fa fa-search"></i></label>
+        </div>
+        <i class="fas fa-bell"></i>
+        <div class="user">
+            <img src="./asset/img/doctor-icon.png" alt="">
+        </div>
+    </div>
+    <!-- top-bar end  -->
+    <!-- card start  -->
+    <div class="cards">
+        <div class="card">
+            <div class="card-content">
+                <div class="number">67</div>
+                <div class="card-name">Appointments</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-briefcase-medical"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">105</div>
+                <div class="card-name">New Patients</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-wheelchair"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">8</div>
+                <div class="card-name">Operations</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-bed"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="number">$4500</div>
+                <div class="card-name">Earnings</div>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+        </div>
+    </div>
+    <!-- cards end  -->
+    <!-- table start  -->
+
+<div class="welcome-message">Patient Registeration</div>
+<div class="form-container">
+    <form action="/register_patient" method="POST">
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" required>
+        
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age">
+        
+        <label for="address">Address</label>
+        <textarea id="address" name="address"></textarea>
+        
+        <label for="phone_number">Phone Number</label>
+        <input type="text" id="phone_number" name="phone_number">
+        
+        <input type="submit" value="Register">
+    </form>
+</div>
+    <!-- table end -->
+</div>
+    <!-- main end-->
+</div>
+    <!-- container end -->
+</body>
+</html>

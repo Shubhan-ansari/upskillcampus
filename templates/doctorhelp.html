@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashpiyal Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .input-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px 0 0 10px;
+            margin-top: 10px;
+        }
+
+        .chat-button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .chat-button:hover {
+            background-color: #2980b9;
+        }
+
+        .chat-message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-message {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+        }
+
+        .bot-message {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        .user-message, .bot-message {
+            max-width: 80%;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 9999;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 9998;
+        }
+    </style>
+    <script>
+        async function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const chatBox = document.getElementById('chat-box');
+            const loader = document.getElementById('loader');
+            const overlay = document.getElementById('overlay');
+            const sendButton = document.querySelector('.chat-button');
+            const userMessage = messageInput.value.trim();
+
+            // Prevent sending empty messages
+            if (userMessage === '') {
+                alert('Please enter a message.');
+                return;
+            }
+
+            // Display user message
+            const userMessageElement = document.createElement('div');
+            userMessageElement.classList.add('chat-message', 'user-message');
+            userMessageElement.textContent = userMessage;
+            chatBox.appendChild(userMessageElement);
+
+            // Clear input field
+            messageInput.value = '';
+
+            // Show loader and overlay
+            loader.style.display = 'block';
+            overlay.style.display = 'block';
+
+            // Disable send button
+            sendButton.disabled = true;
+
+            // Send message to the server
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+            const data = await response.json();
+            const botAnswer = data.answer;
+
+            // Hide loader and overlay
+            loader.style.display = 'none';
+            overlay.style.display = 'none';
+
+            // Display bot response
+            const botMessageElement = document.createElement('div');
+            botMessageElement.classList.add('chat-message', 'bot-message');
+            botMessageElement.textContent = botAnswer;
+            chatBox.appendChild(botMessageElement);
+
+            // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Re-enable send button after 5 seconds
+            setTimeout(() => {
+                sendButton.disabled = false;
+            }, 5000);
+        }
+    </script>
+</head>
+<body>
+    <!-- container start -->
+    <div class="container">
+        <!-- sidebar start -->
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-clinic-medical"></i>
+                        <div class="title">Brand Name</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/doctor_home">
+                        <i class="fas fa-th-large"></i>
+                        <div class="title">Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/appointments">
+                        <i class="fas fa-stethoscope"></i>
+                        <div class="title">Appoinments</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/patients_view">
+                        <i class="fa-solid fa-hospital-user"></i>
+                        <div class="title">Patients</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/departments_view">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <div class="title">Department</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/reports">
+                        <i class="fa-solid fa-file"></i>
+                        <div class="title">Reports</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <div class="title">Logout</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dhelp">
+                        <i class="fas fa-question"></i>
+                        <div class="title">Help</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar end -->
+
+        <!-- main start -->
+        <div class="main" style="height: 100vh;">
+            <!-- top-bar start -->
+            <div class="top-bar">
+                <div class="search">
+                    <input type="text" name="search" placeholder="Search here">
+                    <label for="search"><i class="fa fa-search"></i></label>
+                </div>
+                <i class="fas fa-bell"></i>
+                <div class="user">
+                    <img src="./asset/img/doctor-icon.png" alt="">
+                </div>
+            </div>
+            <!-- top-bar end -->
+
+            <!-- card start -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">67</div>
+                        <div class="card-name">Appointments</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-briefcase-medical"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">105</div>
+                        <div class="card-name">New Patients</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-wheelchair"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">8</div>
+                        <div class="card-name">Operations</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">$4500</div>
+                        <div class="card-name">Earnings</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- cards end -->
+
+            <!-- chat start -->
+            <div class="chat-container" style="margin-top: 50px;">
+                <h2>Chat with CareBot</h2>
+                <br>
+                <div id="chat-box" class="chat-box"></div>
+                <div class="input-container">
+                    <input id="message-input" type="text" class="chat-input" placeholder="Type your message here..." />
+                    <button class="chat-button" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+            <!-- chat end -->
+        </div>
+        <!-- main end -->
+    </div>
+    <!-- container end -->
+
+    <!-- loader and overlay -->
+    <div id="loader" class="loader"></div>
+    <div id="overlay" class="overlay"></div>
+</body>
+</html>

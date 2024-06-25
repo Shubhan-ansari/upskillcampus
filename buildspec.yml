@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Installing source dependencies...
+      - sudo apt-get update
+      - sudo apt-get install -y python3-pip python3-venv git
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Installing Python dependencies...
+      - python3 -m venv venv
+      - /bin/bash -c "source venv/bin/activate"
+      - pip3 install -r requirements.txt
+      - chmod +x scripts/stop_application.sh
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: no

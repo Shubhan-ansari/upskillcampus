@@ -1,0 +1,82 @@
+CREATE TABLE login (
+    username VARCHAR(50) PRIMARY KEY,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT,
+    doctor_id INT,
+    disease VARCHAR(100),
+    cure VARCHAR(100),
+    date_admitted DATE,
+    date_discharged DATE,
+    symptoms TEXT,
+    FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+   FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+);
+
+CREATE TABLE staff (
+    staff_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    age INT,
+    address TEXT,
+    phone_number VARCHAR(15),
+    date_of_joining DATE,
+    salary DECIMAL(10, 2),
+    work_description TEXT
+);
+
+CREATE TABLE nurses (
+    nurse_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    age INT,
+    address TEXT,
+    phone_number VARCHAR(15),
+    department_id INT,
+    date_of_joining DATE,
+    salary DECIMAL(10, 2),
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+
+CREATE TABLE doctors (
+    doctor_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    age INT,
+    address TEXT,
+    phone_number VARCHAR(15),
+    experience INT,
+    department_id INT,
+    position VARCHAR(50),
+    cases_handled INT DEFAULT 0,
+    date_of_joining DATE,
+    salary DECIMAL(10, 2),
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+CREATE TABLE departments (
+    department_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    num_doctors INT DEFAULT 0,
+    num_nurses INT DEFAULT 0,
+    cases_handled INT DEFAULT 0
+);
+
+CREATE TABLE patients (
+    patient_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    age INT,
+    address TEXT,
+    phone_number VARCHAR(15)
+);
+
